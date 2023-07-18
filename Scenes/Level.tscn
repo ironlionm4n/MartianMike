@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://02515ndx4jwt"]
+
+[ext_resource type="Script" path="res://Scripts/Level.cs" id="1_u56pv"]
+[ext_resource type="PackedScene" uid="uid://ciwsw73kyi4hm" path="res://Scenes/Player.tscn" id="2_owhii"]
+[ext_resource type="Texture2D" uid="uid://bdwei3rytv46t" path="res://Assets/martian_mike_assets/textures/bg/Brown.png" id="3_qnhc4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15osb"]
+size = Vector2(833, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yguyo"]
+size = Vector2(2365, 20)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_u56pv")
+
+[node name="Player" parent="." instance=ExtResource("2_owhii")]
+position = Vector2(160, 216)
+maxFallSpeed = 500.0
+
+[node name="Ground" type="StaticBody2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-364, -29)
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground"]
+position = Vector2(407.66, 293)
+scale = Vector2(13.0106, 1)
+texture = ExtResource("3_qnhc4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(406.5, 271)
+shape = SubResource("RectangleShape2D_15osb")
+
+[node name="DeathZone" type="Area2D" parent="."]
+position = Vector2(0, 172)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+position = Vector2(81, 272)
+shape = SubResource("RectangleShape2D_yguyo")
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(93, 222)
+
+[connection signal="body_entered" from="DeathZone" to="." method="OnDeathZoneBodyEntered"]
